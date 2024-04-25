@@ -3,6 +3,8 @@ A small tool to extract .deb files,
 
 It automaically downloads .deb files from the [Debian Package Mirror](https://deb.debian.org)
 
+![Version](https://badgen.net/github/release/oceanoc/debextract)
+
 ###### I am not related to Debian in any way or form.
 
 ## Usage
