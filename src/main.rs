@@ -2,18 +2,19 @@ use std::env;
 use std::process::Command;
 
 fn main() {
-    println!("Debextract 0.2.0");
+    println!("Debextract 0.2.1");
     let args: Vec<String> = env::args().collect();
-    let ch = args[1].chars().next().unwrap();
 
-    let mut docleanup = false;
-    let mut autoinstall = false;
-
-    if args.len() >= 1 {
+    if args.len() == 1 {
         println!("No arguments.");
         println!("Try debextract --help for more information");
         return;
     }
+
+    let ch = args[1].chars().next().unwrap();
+
+    let mut docleanup = false;
+    let mut autoinstall = false;
 
     let mut debfile = String::new();
 
@@ -40,16 +41,16 @@ fn main() {
         debfile = format!("{}_{}_{}.deb", args[1], args[2], args[3]);
     } else if args.len() == 0 || args[1] == "help" || args[1] == "--help" || args[1] == "-h" {
         println!("Usage: debextract [Package Name] [Version] [Architecture] [Arguments]");
-        println!("  -c          cleanup useless files after decompressing");
-        println!("  -m          option to install the deb file into /usr/bin/ and add it the PATH");
+        println!("  -c, --cleanup cleanup useless files after decompressing");
+        println!("  -m, --manual  option to install the deb file into /usr/bin/ and add it the PATH (requires root)");
     }
 
-    if args.len() >= 5 && args[4].contains("-c") {
+    if args.len() >= 5 && args[4].contains("-c") || args[4].contains("--cleanup") {
         docleanup = true;
     } else if args.len() >= 5 && args[4].contains("-cm") {
         docleanup = true;
         autoinstall = true;
-    } else if args.len() >= 5 && args[4].contains("-m") {
+    } else if args.len() >= 5 && args[4].contains("-m") || args[4].contains("--manual") {
         autoinstall = true;
     }
 
@@ -84,9 +85,11 @@ fn main() {
     assert!(output1.status.success());
 
     // .deb files usally contain 3 files
-    //     + data.tar.xz - Contains the executable
+    //     + data.tar.xz    - Contains the executable
     //     + control.tar.xz - Contains the metadata related to the file
+    //     + debian-binary  - Contains the package version
     // Here we only need data.tar.xz
+    // Although the user has the option to keep 
 
     println!("Decompressing data...");
 
