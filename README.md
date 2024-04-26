@@ -15,10 +15,10 @@ debextract [Package Name] [Package Version] [Architecture] [Arguments]
 ```
 
 ## Planned Features
-- [ ] Use custom mirror
 - [ ] Install dependencies with package
 - [x] Option to not clean up
 - [x] Automated extract
+- [x] Use custom mirror
 
 ## Building
 1. Clone the repo
