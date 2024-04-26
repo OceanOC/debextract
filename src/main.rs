@@ -2,7 +2,7 @@ use std::env;
 use std::process::Command;
 
 fn main() {
-    println!("Debextract 0.2.1");
+    println!("Debextract 0.3.0");
     let args: Vec<String> = env::args().collect();
 
     if args.len() == 1 {
@@ -16,7 +16,12 @@ fn main() {
     let mut docleanup = false;
     let mut autoinstall = false;
 
+    #[allow(unused_assignments)]
+
     let mut debfile = String::new();
+
+    #[allow(unused_assignments)]
+
 
     let mut url = String::new();
 
@@ -40,10 +45,18 @@ fn main() {
         );
         debfile = format!("{}_{}_{}.deb", args[1], args[2], args[3]);
     } else if args.len() == 0 || args[1] == "help" || args[1] == "--help" || args[1] == "-h" {
-        println!("Usage: debextract [Package Name] [Version] [Architecture] [Arguments]");
-        println!("  -c, --cleanup cleanup useless files after decompressing");
-        println!("  -m, --manual  option to install the deb file into /usr/bin/ and add it the PATH (requires root)");
+        println!("Usage: debextract [Package Name] [Version] [Architecture] [Arguments] [Custom Link]");
+        println!("  -g, --custom-mirror specify custom link to download from");
+        println!("  -c, --cleanup       cleanup useless files after decompressing");
+        println!("  -m, --manual        option to install the deb file into /usr/bin/ and add it the PATH (requires root)");
     }
+
+    if args.len() == 5 && args[4].contains("--custom-mirror") || args[4].contains("-g") {
+        url = format!(
+            "{}",
+            args[5]
+        );
+    }        
 
     if args.len() >= 5 && args[4].contains("-c") || args[4].contains("--cleanup") {
         docleanup = true;
